@@ -1,108 +1,104 @@
 {
-    "type": "Categorization",
-    "elements": [
-      {
-        "type": "Category",
-        "label": "Informations Personnelles",
-        "elements": [
-          {
-            "type": "HorizontalLayout",
-            "elements": [
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsPersonnelles/properties/firstName"
-              },
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsPersonnelles/properties/lastName"
-              }
-            ]
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/informationsPersonnelles/properties/email"
-          },
-          {
-            "type": "HorizontalLayout",
-            "elements": [
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsPersonnelles/properties/birthDate"
-              },
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsPersonnelles/properties/nationality"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "Category",
-        "label": "Adresse",
-        "elements": [
-          {
-            "type": "HorizontalLayout",
-            "elements": [
-              {
-                "type": "Control",
-                "scope": "#/properties/adresse/properties/street"
-              },
-              {
-                "type": "Control",
-                "scope": "#/properties/adresse/properties/streetNumber"
-              }
-            ]
-          },
-          {
-            "type": "HorizontalLayout",
-            "elements": [
-              {
-                "type": "Control",
-                "scope": "#/properties/adresse/properties/city"
-              },
-              {
-                "type": "Control",
-                "scope": "#/properties/adresse/properties/postalCode"
-              }
-            ]
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/adresse/properties/country"
-          }
-        ]
-      },
-      {
-        "type": "Category",
-        "label": "Informations Professionnelles",
-        "elements": [
-          {
-            "type": "HorizontalLayout",
-            "elements": [
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsProfessionnelles/properties/profession"
-              },
-              {
-                "type": "Control",
-                "scope": "#/properties/informationsProfessionnelles/properties/experience"
-              }
-            ]
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/informationsProfessionnelles/properties/secteurActivite"
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/informationsProfessionnelles/properties/competences"
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/informationsProfessionnelles/properties/disponibilite"
-          }
-        ]
-      }
-    ]
-  }
+  "type": "Categorization",
+  "elements": [
+    {
+      "type": "Category",
+      "label": "Informations Personnelles",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsPersonnelles/properties/firstName"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsPersonnelles/properties/lastName"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/informationsPersonnelles/properties/email"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsPersonnelles/properties/birthDate"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsPersonnelles/properties/nationality"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Adresse",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/adresse/properties/street"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/adresse/properties/streetNumber"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/adresse/properties/city"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/adresse/properties/postalCode"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/adresse/properties/country"
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Informations Professionnelles",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsProfessionnelles/properties/profession"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/informationsProfessionnelles/properties/experience"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/informationsProfessionnelles/properties/secteurActivite"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/informationsProfessionnelles/properties/disponibilite"
+        }
+      ]
+    }
+  ]
+}
