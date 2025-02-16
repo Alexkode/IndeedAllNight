@@ -6,28 +6,23 @@
         "properties": {
           "firstName": {
             "type": "string",
-            "minLength": 3,
-            "description": "Veuillez entrer votre prénom"
+            "minLength": 3
           },
           "lastName": {
             "type": "string",
-            "minLength": 3,
-            "description": "Veuillez entrer votre nom"
+            "minLength": 3
           },
           "email": {
             "type": "string",
-            "format": "email",
-            "description": "Veuillez entrer votre email"
+            "format": "email"
           },
           "birthDate": {
             "type": "string",
-            "format": "date",
-            "description": "Veuillez entrer votre date de naissance"
+            "format": "date"
           },
           "nationality": {
             "type": "string",
-            "enum": ["FR", "BE", "CH", "CA", "Other"],
-            "description": "Veuillez sélectionner votre nationalité"
+            "enum": ["FR", "BE", "CH", "CA", "Other"]
           }
         }
       },
@@ -82,13 +77,6 @@
               "Autre"
             ],
             "description": "Secteur d'activité"
-          },
-          "competences": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Vos compétences principales (séparées par des virgules)"
           },
           "disponibilite": {
             "type": "string",

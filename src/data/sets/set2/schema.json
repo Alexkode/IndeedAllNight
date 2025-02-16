@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "projetInformations": {
+      "type": "object",
+      "properties": {
+        "nomProjet": {
+          "type": "string",
+          "minLength": 3
+        },
+        "description": {
+          "type": "string"
+        },
+        "dateDebut": {
+          "type": "string",
+          "format": "date"
+        },
+        "budget": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "equipeInformations": {
+      "type": "object",
+      "properties": {
+        "tailleEquipe": {
+          "type": "number",
+          "minimum": 1
+        },
+        "responsable": {
+          "type": "string"
+        },
+        "localisation": {
+          "type": "string",
+          "enum": ["Paris", "Lyon", "Marseille", "Autre"]
+        }
+      }
+    }
+  }
+} 

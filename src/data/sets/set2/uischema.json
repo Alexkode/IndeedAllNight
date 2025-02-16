@@ -1,0 +1,55 @@
+{
+  "type": "Categorization",
+  "elements": [
+    {
+      "type": "Category",
+      "label": "Informations Projet",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/projetInformations/properties/nomProjet"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/projetInformations/properties/description"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/projetInformations/properties/dateDebut"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/projetInformations/properties/budget"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Informations Équipe",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/equipeInformations/properties/tailleEquipe"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/equipeInformations/properties/responsable"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/equipeInformations/properties/localisation"
+        }
+      ]
+    }
+  ]
+} 

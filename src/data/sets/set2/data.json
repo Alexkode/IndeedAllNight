@@ -1,0 +1,13 @@
+{
+  "projetInformations": {
+    "nomProjet": "",
+    "description": "",
+    "dateDebut": "",
+    "budget": 0
+  },
+  "equipeInformations": {
+    "tailleEquipe": 1,
+    "responsable": "",
+    "localisation": "Paris"
+  }
+} 

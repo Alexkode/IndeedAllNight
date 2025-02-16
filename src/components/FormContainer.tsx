@@ -5,9 +5,6 @@ import { materialCells } from '@jsonforms/material-renderers';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import schema from '../data/schema.json';
-import uischema from '../data/uischema.json';
-import initialData from '../data/data.json';
 import { JsonSchema, UISchemaElement } from '@jsonforms/core';
 
 const theme = createTheme({
@@ -35,7 +32,13 @@ const theme = createTheme({
   },
 });
 
-const FormContainer: React.FC = () => {
+interface FormContainerProps {
+  schema: JsonSchema;
+  uischema: UISchemaElement;
+  data: any;
+}
+
+const FormContainer: React.FC<FormContainerProps> = ({ schema, uischema, data: initialData }) => {
   const [data, setData] = useState(initialData);
 
   const handleChange = ({ data, errors }: any) => {
@@ -49,8 +52,8 @@ const FormContainer: React.FC = () => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div style={{ padding: '20px' }}>
           <JsonForms
-            schema={schema as JsonSchema}
-            uischema={uischema as UISchemaElement}
+            schema={schema}
+            uischema={uischema}
             data={data}
             renderers={materialRenderers}
             cells={materialCells}

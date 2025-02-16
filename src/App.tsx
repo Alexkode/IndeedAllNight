@@ -1,30 +1,81 @@
 import React from 'react';
-import { Layout } from 'antd';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormContainer from './components/FormContainer';
-import 'antd/dist/reset.css';
+import CustomCategorization from './components/CustomCategorization';
 
-const { Header, Content } = Layout;
+// Modification des imports
+import set1Schema from './data/sets/set1/schema.json';
+import set1UiSchema from './data/sets/set1/uischema.json';
+import set1Data from './data/sets/set1/data.json';
+import set2Schema from './data/sets/set2/schema.json';
+import set2UiSchema from './data/sets/set2/uischema.json';
+import set2Data from './data/sets/set2/data.json';
 
 const theme = createTheme();
+
+const formSets = [
+  {
+    title: "Informations Personnelles",
+    forms: [
+      {
+        name: "Informations Personnelles",
+        schema: set1Schema,
+        uischema: {
+          ...set1UiSchema,
+          elements: [set1UiSchema.elements[0]]
+        },
+        data: set1Data
+      },
+      {
+        name: "Adresse",
+        schema: set1Schema,
+        uischema: {
+          ...set1UiSchema,
+          elements: [set1UiSchema.elements[1]]
+        },
+        data: set1Data
+      },
+      {
+        name: "Informations Professionnelles",
+        schema: set1Schema,
+        uischema: {
+          ...set1UiSchema,
+          elements: [set1UiSchema.elements[2]]
+        },
+        data: set1Data
+      }
+    ]
+  },
+  {
+    title: "Informations Projet",
+    forms: [
+      {
+        name: "Projet",
+        schema: set2Schema,
+        uischema: {
+          ...set2UiSchema,
+          elements: [set2UiSchema.elements[0]]
+        },
+        data: set2Data
+      },
+      {
+        name: "Équipe",
+        schema: set2Schema,
+        uischema: {
+          ...set2UiSchema,
+          elements: [set2UiSchema.elements[1]]
+        },
+        data: set2Data
+      }
+    ]
+  }
+];
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Layout>
-        <Header style={{ color: 'white', padding: '0 24px' }}>
-          <h1 style={{ color: 'white', margin: 0, lineHeight: '64px' }}>
-            Mon Formulaire JSONForms
-          </h1>
-        </Header>
-        <Content style={{ padding: '24px', minHeight: 'calc(100vh - 64px)' }}>
-          <div style={{ background: 'white', padding: '24px', borderRadius: '8px' }}>
-            <FormContainer />
-          </div>
-        </Content>
-      </Layout>
+      <CustomCategorization formSets={formSets} />
     </ThemeProvider>
   );
 };

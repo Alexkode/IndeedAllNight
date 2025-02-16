@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/pro-components": "^2.8.5",
+    "@ant-design/pro-layout": "^7.22.2",
     "@babel/core": "^7.26.9",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
