@@ -1,0 +1,23 @@
+{
+    "informationsPersonnelles": {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "birthDate": "",
+      "nationality": "FR"
+    },
+    "adresse": {
+      "street": "",
+      "streetNumber": "",
+      "city": "",
+      "postalCode": "",
+      "country": "France"
+    },
+    "informationsProfessionnelles": {
+      "profession": "",
+      "experience": 0,
+      "secteurActivite": "Informatique",
+      "competences": [],
+      "disponibilite": "Immédiate"
+    }
+  }

@@ -1,0 +1,106 @@
+{
+    "type": "object",
+    "properties": {
+      "informationsPersonnelles": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 3,
+            "description": "Veuillez entrer votre prénom"
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 3,
+            "description": "Veuillez entrer votre nom"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Veuillez entrer votre email"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Veuillez entrer votre date de naissance"
+          },
+          "nationality": {
+            "type": "string",
+            "enum": ["FR", "BE", "CH", "CA", "Other"],
+            "description": "Veuillez sélectionner votre nationalité"
+          }
+        }
+      },
+      "adresse": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "description": "Nom de la rue"
+          },
+          "streetNumber": {
+            "type": "string",
+            "description": "Numéro de rue"
+          },
+          "city": {
+            "type": "string",
+            "description": "Ville"
+          },
+          "postalCode": {
+            "type": "string",
+            "maxLength": 5,
+            "description": "Code postal"
+          },
+          "country": {
+            "type": "string",
+            "enum": ["France", "Belgique", "Suisse", "Canada", "Autre"],
+            "description": "Pays"
+          }
+        }
+      },
+      "informationsProfessionnelles": {
+        "type": "object",
+        "properties": {
+          "profession": {
+            "type": "string",
+            "description": "Votre profession actuelle"
+          },
+          "experience": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Années d'expérience"
+          },
+          "secteurActivite": {
+            "type": "string",
+            "enum": [
+              "Informatique",
+              "Santé",
+              "Finance",
+              "Education",
+              "Industrie",
+              "Commerce",
+              "Autre"
+            ],
+            "description": "Secteur d'activité"
+          },
+          "competences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Vos compétences principales (séparées par des virgules)"
+          },
+          "disponibilite": {
+            "type": "string",
+            "enum": [
+              "Immédiate",
+              "Sous 1 mois",
+              "Sous 3 mois",
+              "Plus de 3 mois"
+            ],
+            "description": "Disponibilité"
+          }
+        }
+      }
+    }
+  }
