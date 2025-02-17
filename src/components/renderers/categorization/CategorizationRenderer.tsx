@@ -1,96 +1,139 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  JsonSchema,
   UISchemaElement,
   isCategorization,
-  LayoutProps
+  LayoutProps,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import { Layout, Menu } from 'antd';
+import { ProLayout } from '@ant-design/pro-components';
+import { Typography } from 'antd';
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
 import { materialCells } from '@jsonforms/material-renderers';
 
-const { Content, Sider } = Layout;
+const { Title } = Typography;
 
 interface ExtendedUISchemaElement extends UISchemaElement {
   label?: string;
   elements?: ExtendedUISchemaElement[];
+  scope?: string;
+  type: string;
 }
 
-interface MenuItem {
-  key: string;
+interface Category extends ExtendedUISchemaElement {
+  type: 'Category';
   label: string;
-  element?: ExtendedUISchemaElement;
-  children?: MenuItem[];
+  elements: ExtendedUISchemaElement[];
 }
 
 const CategorizationRenderer: React.FC<LayoutProps> = ({ 
+  schema,
   uischema, 
-  schema, 
-  path, 
-  renderers, 
-  cells,
-  data 
+  data,
+  enabled,
+  visible,
+  path,
 }) => {
-  const [selectedForm, setSelectedForm] = React.useState<{
-    schema: JsonSchema;
-    uischema: ExtendedUISchemaElement;
-    data: any;
-  } | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedElement, setSelectedElement] = useState<ExtendedUISchemaElement | null>(null);
+  const [pathname, setPathname] = useState('/');
 
-  if (!isCategorization(uischema)) {
+  if (!visible || !enabled || !isCategorization(uischema)) {
     return null;
   }
 
-  const categories: MenuItem[] = (uischema.elements as ExtendedUISchemaElement[]).map((category) => ({
-    key: category.label || '',
-    label: category.label || '',
-    children: (category.elements || []).map((element: ExtendedUISchemaElement, index: number) => ({
-      key: `${category.label}-${index}`,
-      label: element.label || `Element ${index + 1}`,
-      element: element
-    }))
-  }));
+  const categories = uischema.elements as Category[];
 
-  const handleMenuClick = ({ key }: { key: string }) => {
-    for (const category of categories) {
-      const form = category.children?.find(child => child.key === key);
-      if (form?.element) {
-        setSelectedForm({
-          schema: schema,
-          uischema: form.element,
-          data: data
-        });
-        break;
+  const route = {
+    path: '/',
+    routes: categories.map(category => ({
+      path: `/${category.label.toLowerCase().replace(/\s+/g, '-')}`,
+      name: category.label,
+      routes: category.elements.map(element => ({
+        path: `/${category.label.toLowerCase().replace(/\s+/g, '-')}/${(element.label || '').toLowerCase().replace(/\s+/g, '-')}`,
+        name: element.label || 'Form',
+        element: element
+      }))
+    }))
+  };
+
+  const handleMenuClick = (path: string) => {
+    setPathname(path);
+    
+    for (const category of route.routes) {
+      if (path === category.path) {
+        const foundCategory = categories.find(c => c.label === category.name);
+        if (foundCategory) {
+          setSelectedCategory(foundCategory);
+          setSelectedElement(null);
+        }
+        return;
+      }
+      
+      const subRoute = category.routes?.find(r => r.path === path);
+      if (subRoute) {
+        const foundCategory = categories.find(c => c.label === category.name);
+        if (foundCategory) {
+          setSelectedCategory(foundCategory);
+          const formElement = foundCategory.elements.find(e => e.label === subRoute.name);
+          if (formElement) {
+            console.log('Form Element:', formElement);
+            setSelectedElement({
+              type: 'VerticalLayout',
+              elements: formElement.elements || []
+            });
+          }
+        }
+        return;
       }
     }
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider theme="light" width={250}>
-        <Menu
-          mode="inline"
-          style={{ height: '100%', borderRight: 0 }}
-          items={categories}
-          onClick={handleMenuClick}
-        />
-      </Sider>
-      <Layout style={{ padding: '24px' }}>
-        <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
-          {selectedForm && (
+    <ProLayout
+      title="Formulaire de Saisie"
+      logo={null}
+      layout="mix"
+      splitMenus={false}
+      contentWidth="Fluid"
+      fixedHeader
+      fixSiderbar
+      route={route}
+      location={{ pathname }}
+      onMenuHeaderClick={() => {
+        setSelectedCategory(null);
+        setSelectedElement(null);
+      }}
+      menuItemRender={(item: any, dom) => (
+        <div onClick={() => handleMenuClick(item.path || '/')}>
+          {dom}
+        </div>
+      )}
+      style={{ height: '100vh' }}
+    >
+      <div style={{ padding: 24 }}>
+        {selectedElement ? (
+          <>
+            <Title level={2}>{selectedCategory?.label}</Title>
+            <Title level={3}>{selectedElement.label}</Title>
             <JsonForms
-              schema={selectedForm.schema}
-              uischema={selectedForm.uischema}
-              data={selectedForm.data}
+              schema={schema}
+              uischema={selectedElement}
+              data={data}
               renderers={materialRenderers}
               cells={materialCells}
             />
-          )}
-        </Content>
-      </Layout>
-    </Layout>
+          </>
+        ) : selectedCategory ? (
+          <>
+            <Title level={2}>{selectedCategory.label}</Title>
+            <Title level={3}>Veuillez sélectionner un sous-formulaire</Title>
+          </>
+        ) : (
+          <Title level={2}>Veuillez sélectionner un formulaire</Title>
+        )}
+      </div>
+    </ProLayout>
   );
 };
 

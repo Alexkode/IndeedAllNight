@@ -1,35 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
 import { materialCells } from '@jsonforms/material-renderers';
-import { JsonSchema } from '@jsonforms/core';
-import { ProLayout } from '@ant-design/pro-components';
-import { Typography } from 'antd';
-
-const { Title } = Typography;
-
-interface ExtendedUISchemaElement {
-  type: string;
-  label?: string;
-  elements?: ExtendedUISchemaElement[];
-  scope?: string;
-}
-
-interface Form {
-  name: string;
-  schema: JsonSchema;
-  uischema: {
-    type: string;
-    elements: ExtendedUISchemaElement[];
-  };
-  data: any;
-}
+import { categorizationRenderers } from './renderers/categorization';
 
 interface FormSet {
   title: string;
-  forms: Form[];
-  schema: JsonSchema;
+  schema: any;
+  uischema: any;
   data: any;
+  forms: Array<{
+    name: string;
+    schema: any;
+    uischema: any;
+    data: any;
+  }>;
 }
 
 interface CustomCategorizationProps {
@@ -37,76 +22,51 @@ interface CustomCategorizationProps {
 }
 
 const CustomCategorization: React.FC<CustomCategorizationProps> = ({ formSets }) => {
-  const [selectedForm, setSelectedForm] = useState<Form | null>(null);
-  const [selectedSet, setSelectedSet] = useState<FormSet>(formSets[0]);
-  const [pathname, setPathname] = useState('/');
+  const allRenderers = [
+    ...categorizationRenderers,
+    ...materialRenderers
+  ];
 
-  const route = {
-    path: '/',
-    routes: formSets.map(set => ({
-      path: `/${set.title.toLowerCase().replace(/\s+/g, '-')}`,
-      name: set.title,
-      routes: set.forms.map(form => ({
-        path: `/${set.title.toLowerCase().replace(/\s+/g, '-')}/${form.name.toLowerCase().replace(/\s+/g, '-')}`,
-        name: form.name,
+  // Création d'un schema global qui combine tous les schemas
+  const globalSchema = {
+    type: "object",
+    properties: formSets.reduce((acc, set) => ({
+      ...acc,
+      ...set.schema.properties
+    }), {})
+  };
+
+  // Création d'un data global qui combine toutes les données
+  const globalData = formSets.reduce((acc, set) => ({
+    ...acc,
+    ...set.data
+  }), {});
+
+  // Création du uischema global avec la structure exacte des formulaires
+  const globalUiSchema = {
+    type: 'Categorization',
+    elements: formSets.map(set => ({
+      type: 'Category',
+      label: set.title,
+      elements: set.forms.map(form => ({
+        ...form.uischema.elements[0], // On prend le premier élément tel quel
+        label: form.name // On ajoute juste le label pour l'affichage
       }))
     }))
   };
 
-  const handleMenuClick = (path: string) => {
-    setPathname(path);
-    for (const set of formSets) {
-      const setPath = `/${set.title.toLowerCase().replace(/\s+/g, '-')}`;
-      if (path.startsWith(setPath)) {
-        const form = set.forms.find(f => 
-          path === `${setPath}/${f.name.toLowerCase().replace(/\s+/g, '-')}`
-        );
-        if (form) {
-          setSelectedSet(set);
-          setSelectedForm(form);
-          break;
-        }
-      }
-    }
-  };
+  console.log('Global Schema:', globalSchema);
+  console.log('Global UI Schema:', globalUiSchema);
+  console.log('Global Data:', globalData);
 
   return (
-    <ProLayout
-      title="Formulaire de Saisie"
-      logo={null}
-      layout="mix"
-      splitMenus={false}
-      contentWidth="Fluid"
-      fixedHeader
-      fixSiderbar
-      route={route}
-      location={{ pathname }}
-      onMenuHeaderClick={() => setSelectedForm(null)}
-      menuItemRender={(item, dom) => (
-        <div onClick={() => handleMenuClick(item.path || '/')}>
-          {dom}
-        </div>
-      )}
-      style={{ height: '100vh' }}
-    >
-      <div style={{ padding: 24 }}>
-        {selectedForm ? (
-          <>
-            <Title level={2}>{selectedSet.title}</Title>
-            <Title level={3}>{selectedForm.name}</Title>
-            <JsonForms
-              schema={selectedSet.schema}
-              uischema={selectedForm.uischema}
-              data={selectedSet.data}
-              renderers={materialRenderers}
-              cells={materialCells}
-            />
-          </>
-        ) : (
-          <Title level={2}>Veuillez sélectionner un formulaire</Title>
-        )}
-      </div>
-    </ProLayout>
+    <JsonForms
+      schema={globalSchema}
+      uischema={globalUiSchema}
+      data={globalData}
+      renderers={allRenderers}
+      cells={materialCells}
+    />
   );
 };
 

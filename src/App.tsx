@@ -13,63 +13,80 @@ import set2Data from './data/sets/set2/data.json';
 
 const theme = createTheme();
 
+// Création d'un schema global qui combine les deux schemas
+const globalSchema = {
+  type: "object",
+  properties: {
+    ...set1Schema.properties,
+    ...set2Schema.properties
+  }
+};
+
+// Création d'un data global qui combine les deux data
+const globalData = {
+  ...set1Data,
+  ...set2Data
+};
+
 const formSets = [
   {
     title: "Informations Personnelles",
-    schema: set1Schema,
-    data: set1Data,
+    schema: globalSchema,
+    uischema: set1UiSchema,
+    data: globalData,
     forms: [
       {
         name: "Informations Personnelles",
-        schema: set1Schema,
+        schema: globalSchema,
         uischema: {
           ...set1UiSchema,
           elements: [set1UiSchema.elements[0]]
         },
-        data: set1Data
+        data: globalData
       },
       {
         name: "Adresse",
-        schema: set1Schema,
+        schema: globalSchema,
         uischema: {
           ...set1UiSchema,
           elements: [set1UiSchema.elements[1]]
         },
-        data: set1Data
+        data: globalData
       },
       {
         name: "Informations Professionnelles",
-        schema: set1Schema,
+        schema: globalSchema,
         uischema: {
           ...set1UiSchema,
           elements: [set1UiSchema.elements[2]]
         },
-        data: set1Data
+        data: globalData
       }
     ]
   },
   {
     title: "Informations Projet",
-    schema: set2Schema,
-    data: set2Data,
+    schema: globalSchema,
+    uischema: set2UiSchema,
+    data: globalData,
     forms: [
       {
         name: "Projet",
-        schema: set2Schema,
+        schema: globalSchema,
         uischema: {
           ...set2UiSchema,
           elements: [set2UiSchema.elements[0]]
         },
-        data: set2Data
+        data: globalData
       },
       {
         name: "Équipe",
-        schema: set2Schema,
+        schema: globalSchema,
         uischema: {
           ...set2UiSchema,
           elements: [set2UiSchema.elements[1]]
         },
-        data: set2Data
+        data: globalData
       }
     ]
   }
