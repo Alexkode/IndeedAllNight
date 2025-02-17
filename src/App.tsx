@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import CustomCategorization from './components/CustomCategorization';
 
-// Modification des imports
+// Import des sets de formulaires
 import set1Schema from './data/sets/set1/schema.json';
 import set1UiSchema from './data/sets/set1/uischema.json';
 import set1Data from './data/sets/set1/data.json';
@@ -16,6 +16,8 @@ const theme = createTheme();
 const formSets = [
   {
     title: "Informations Personnelles",
+    schema: set1Schema,
+    data: set1Data,
     forms: [
       {
         name: "Informations Personnelles",
@@ -48,6 +50,8 @@ const formSets = [
   },
   {
     title: "Informations Projet",
+    schema: set2Schema,
+    data: set2Data,
     forms: [
       {
         name: "Projet",
