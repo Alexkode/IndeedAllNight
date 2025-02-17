@@ -3,9 +3,10 @@ import { JsonForms } from '@jsonforms/react';
 import { materialRenderers } from '@jsonforms/material-renderers';
 import { materialCells } from '@jsonforms/material-renderers';
 import { JsonSchema } from '@jsonforms/core';
-import { Layout, Menu } from 'antd';
+import { ProLayout } from '@ant-design/pro-components';
+import { Typography } from 'antd';
 
-const { Content, Sider } = Layout;
+const { Title } = Typography;
 
 interface ExtendedUISchemaElement {
   type: string;
@@ -38,21 +39,28 @@ interface CustomCategorizationProps {
 const CustomCategorization: React.FC<CustomCategorizationProps> = ({ formSets }) => {
   const [selectedForm, setSelectedForm] = useState<Form | null>(null);
   const [selectedSet, setSelectedSet] = useState<FormSet>(formSets[0]);
+  const [pathname, setPathname] = useState('/');
 
-  const menuItems = formSets.map(set => ({
-    key: set.title,
-    label: set.title,
-    children: set.forms.map(form => ({
-      key: `${set.title}-${form.name}`,
-      label: form.name,
+  const route = {
+    path: '/',
+    routes: formSets.map(set => ({
+      path: `/${set.title.toLowerCase().replace(/\s+/g, '-')}`,
+      name: set.title,
+      routes: set.forms.map(form => ({
+        path: `/${set.title.toLowerCase().replace(/\s+/g, '-')}/${form.name.toLowerCase().replace(/\s+/g, '-')}`,
+        name: form.name,
+      }))
     }))
-  }));
+  };
 
-  const handleMenuClick = ({ key }: { key: string }) => {
+  const handleMenuClick = (path: string) => {
+    setPathname(path);
     for (const set of formSets) {
-      if (key.startsWith(set.title)) {
-        const formKey = key.replace(`${set.title}-`, '');
-        const form = set.forms.find(f => f.name === formKey);
+      const setPath = `/${set.title.toLowerCase().replace(/\s+/g, '-')}`;
+      if (path.startsWith(setPath)) {
+        const form = set.forms.find(f => 
+          path === `${setPath}/${f.name.toLowerCase().replace(/\s+/g, '-')}`
+        );
         if (form) {
           setSelectedSet(set);
           setSelectedForm(form);
@@ -63,19 +71,29 @@ const CustomCategorization: React.FC<CustomCategorizationProps> = ({ formSets })
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider theme="light" width={250}>
-        <Menu
-          mode="inline"
-          style={{ height: '100%', borderRight: 0 }}
-          items={menuItems}
-          onClick={handleMenuClick}
-          defaultOpenKeys={formSets.map(set => set.title)}
-        />
-      </Sider>
-      <Layout style={{ padding: '24px' }}>
-        <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
-          {selectedForm && (
+    <ProLayout
+      title="Formulaire de Saisie"
+      logo={null}
+      layout="mix"
+      splitMenus={false}
+      contentWidth="Fluid"
+      fixedHeader
+      fixSiderbar
+      route={route}
+      location={{ pathname }}
+      onMenuHeaderClick={() => setSelectedForm(null)}
+      menuItemRender={(item, dom) => (
+        <div onClick={() => handleMenuClick(item.path || '/')}>
+          {dom}
+        </div>
+      )}
+      style={{ height: '100vh' }}
+    >
+      <div style={{ padding: 24 }}>
+        {selectedForm ? (
+          <>
+            <Title level={2}>{selectedSet.title}</Title>
+            <Title level={3}>{selectedForm.name}</Title>
             <JsonForms
               schema={selectedSet.schema}
               uischema={selectedForm.uischema}
@@ -83,10 +101,12 @@ const CustomCategorization: React.FC<CustomCategorizationProps> = ({ formSets })
               renderers={materialRenderers}
               cells={materialCells}
             />
-          )}
-        </Content>
-      </Layout>
-    </Layout>
+          </>
+        ) : (
+          <Title level={2}>Veuillez sélectionner un formulaire</Title>
+        )}
+      </div>
+    </ProLayout>
   );
 };
 
